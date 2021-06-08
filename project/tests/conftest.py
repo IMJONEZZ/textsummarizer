@@ -25,10 +25,10 @@ def test_app():
 
 
 @pytest.fixture(scope="module")
-async def test_app_with_db():
+def test_app_with_db():
     app = create_application()
     app.dependency_overrides[get_settings] = get_settings_override
-    await register_tortoise(
+    register_tortoise(
         app,
         db_url=os.environ.get("DATABASE_URL"),
         modules={"models": ["app.models.tortoise"]},
