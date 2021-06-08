@@ -18,7 +18,6 @@ def test_app():
     app = create_application()
     app.dependency_overrides[get_settings] = get_settings_override
     with TestClient(app) as test_client:
-
         # testing
         yield test_client
 
@@ -26,10 +25,10 @@ def test_app():
 
 
 @pytest.fixture(scope="module")
-def test_app_with_db():
+async def test_app_with_db():
     app = create_application()
     app.dependency_overrides[get_settings] = get_settings_override
-    register_tortoise(
+    await register_tortoise(
         app,
         db_url=os.environ.get("DATABASE_URL"),
         modules={"models": ["app.models.tortoise"]},
@@ -37,5 +36,4 @@ def test_app_with_db():
         add_exception_handlers=True,
     )
     with TestClient(app) as test_client:
-
         yield test_client
